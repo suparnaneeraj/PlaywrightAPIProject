@@ -14,9 +14,9 @@ export class CreateTokenAPI{
         this.request = request;
     }
 
-    async createTokenAPI(payload?: AuthPayload, headers? : Record<string,string>){
+    async createTokenAPI(payload?: AuthPayload, headers? : Record<string,string>, endpoint?: string){
 
-        const createTokenURI = '/auth';
+        const createTokenURI = endpoint ?? '/auth';
         const defaultHeader = {
             "Content-Type" : 'application/json'
         };
