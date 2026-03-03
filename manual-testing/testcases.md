@@ -77,7 +77,7 @@
 #### Expected Result : The response status code should be 404 and the response body should appropriate error message
 
 #### Testcase Id : Test-Auth-08
-#### Testcase Description : Verify if CreateToken API ignores all other extra parameters in paylod
+#### Testcase Description : Verify if CreateToken API ignores all other extra parameters in payload
 #### Precondition : API is reachable and a valid username and password exist.
 #### Test Steps : 
 #### 1. Hit the request POST https://restful-booker.herokuapp.com/auths with Request body containing extra parameters other than username and password
