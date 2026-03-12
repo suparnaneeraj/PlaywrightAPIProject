@@ -1,5 +1,5 @@
 import {test, expect} from '@playwright/test';
-import { CreateTokenAPI } from '../apis/createTokenAPI';
+import { CreateToken } from '../apis/createToken';
 
 const username = process.env.USERNAME;
 const password = process.env.PASSWORD;
@@ -15,7 +15,7 @@ test.describe('Create Token Tests', async()=>{
             "username" : username,
             "password" : password
         };
-        const createTokenAPI = new CreateTokenAPI(request);
+        const createTokenAPI = new CreateToken(request);
         const createTokenResponse = await createTokenAPI.createTokenAPI(createTokenRequestPaylod);
         const createTokenResponseJson = await createTokenResponse.json();
         expect(createTokenResponse.status()).toBe(200);
@@ -29,7 +29,7 @@ test.describe('Create Token Tests', async()=>{
 
     test('should verify if CreateToken API returns error response on empty request body', async({request})=>{
         const createTokenRequestPaylod = {};
-        const createTokenAPI = new CreateTokenAPI(request);
+        const createTokenAPI = new CreateToken(request);
         const createTokenResponse = await createTokenAPI.createTokenAPI(createTokenRequestPaylod);
         expect(createTokenResponse.status()).toBe(200);
         const createTokenResponseJson = await createTokenResponse.json();
@@ -40,7 +40,7 @@ test.describe('Create Token Tests', async()=>{
         const createTokenRequestPaylod = {
             "password" : password
         };
-        const createTokenAPI = new CreateTokenAPI(request);
+        const createTokenAPI = new CreateToken(request);
         const createTokenResponse = await createTokenAPI.createTokenAPI(createTokenRequestPaylod);
         expect(createTokenResponse.status()).toBe(200);
         const createTokenResponseJson = await createTokenResponse.json();
@@ -51,7 +51,7 @@ test.describe('Create Token Tests', async()=>{
         const createTokenRequestPaylod = {
             "username" : username
         };
-        const createTokenAPI = new CreateTokenAPI(request);
+        const createTokenAPI = new CreateToken(request);
         const createTokenResponse = await createTokenAPI.createTokenAPI(createTokenRequestPaylod);
         expect(createTokenResponse.status()).toBe(200);
         const createTokenResponseJson = await createTokenResponse.json();
@@ -63,7 +63,7 @@ test.describe('Create Token Tests', async()=>{
             "username" : invalidUsername,
             "password" : password
         };
-        const createTokenAPI = new CreateTokenAPI(request);
+        const createTokenAPI = new CreateToken(request);
         const createTokenResponse = await createTokenAPI.createTokenAPI(createTokenRequestPaylod);
         expect(createTokenResponse.status()).toBe(200);
         const createTokenResponseJson = await createTokenResponse.json();
@@ -75,7 +75,7 @@ test.describe('Create Token Tests', async()=>{
             "username" : username,
             "password" : invalidPassword
         };
-        const createTokenAPI = new CreateTokenAPI(request);
+        const createTokenAPI = new CreateToken(request);
         const createTokenResponse = await createTokenAPI.createTokenAPI(createTokenRequestPaylod);
         expect(createTokenResponse.status()).toBe(200);
         const createTokenResponseJson = await createTokenResponse.json();
@@ -89,7 +89,7 @@ test.describe('Create Token Tests', async()=>{
             "userID" : 120,
             "createToken" : false
         };
-        const createTokenAPI = new CreateTokenAPI(request);
+        const createTokenAPI = new CreateToken(request);
         const createTokenResponse = await createTokenAPI.createTokenAPI(createTokenRequestPaylod);
         const createTokenResponseJson = await createTokenResponse.json();
         expect(createTokenResponse.status()).toBe(200);
@@ -105,7 +105,7 @@ test.describe('Create Token Tests', async()=>{
             "password" : password
         };
         const headers = { "Content-Type": "text/plain" };
-        const createTokenAPI = new CreateTokenAPI(request);
+        const createTokenAPI = new CreateToken(request);
         const createTokenResponse = await createTokenAPI.createTokenAPI(createTokenRequestPayload, headers);
         expect(createTokenResponse.status()).toBe(200);
         const createTokenResponseJson = await createTokenResponse.json();
@@ -119,7 +119,7 @@ test.describe('Create Token Tests', async()=>{
         };
         const invalidCreateTokenURI = '/auths';
         const headers = {"Content-Type" : 'application/json' };
-        const createTokenAPI = new CreateTokenAPI(request);
+        const createTokenAPI = new CreateToken(request);
         const createTokenResponse = await createTokenAPI.createTokenAPI(createTokenRequestPayload, headers, invalidCreateTokenURI);
         expect(createTokenResponse.status()).toBe(404);
         const createTokenResponseText =  await createTokenResponse.text();

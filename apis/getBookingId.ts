@@ -8,7 +8,7 @@ type BookingParams={
     [key : string] : any
 
 }
-export class GetBookingIdsAPI{
+export class GetBookingId{
 
     private request : APIRequestContext;
     constructor(request : APIRequestContext){

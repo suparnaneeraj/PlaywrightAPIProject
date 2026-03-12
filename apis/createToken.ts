@@ -1,4 +1,4 @@
-import { APIRequest, APIRequestContext } from "@playwright/test";
+import { APIRequestContext } from "@playwright/test";
 
 type AuthPayload = {
   username?: string;
@@ -6,7 +6,7 @@ type AuthPayload = {
   [key: string]: any;
 };
 
-export class CreateTokenAPI{
+export class CreateToken{
     
     private readonly request : APIRequestContext;
 
