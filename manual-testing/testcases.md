@@ -179,9 +179,35 @@ Test Steps :
 - Hit the request POST https://restful-booker.herokuapp.com/booking with a valid json request body with all the parameters except additionalneeds.
 - Verify if 200 Ok status code is returned
 - Verify if the response body is a non empty json with parameters bookingid, booking.firstname, booking.lastname, booking.totalprice, booking.depositpaid, booking.dates, booking.bookingdates.checkin, booking.bookingdates.checkout
-- Verify if additionalneeds parameter i not present in the response.
+- Verify if additionalneeds parameter is not present in the response.
 Expected Result : The response status code returned should be 200 OK and the response body should not contain additionalneeds but should contain all other parameters given in the request body. 
 
+#### Testcase Id : Test-CreateBooking-08
+Testcase Description : Verify if CreateBooking API returns success status when the json request body with existing firstname and lastname is provided. 
+Precondition : API is reachable and a booking with same firstname and lastname exist
+Test Steps :
+- Hit the request POST https://restful-booker.herokuapp.com/booking with a valid json request body with all the parameters with firstname and lastname alreading existing.
+- Verify if 200 Ok status code is returned
+- Verify if the response body contains bookingid but different from the first request's response.
+Expected Result : The response status code returned should be 200 OK and the response body should contain different bookingid.
+
+#### Testcase Id : Test-CreateBooking-09
+Testcase Description : Verify if CreateBooking API returns success status when the firstname in the request body contains special characters. 
+Precondition : API is reachable
+Test Steps :
+- Hit the request POST https://restful-booker.herokuapp.com/booking with a valid json request body and the firstname contains a special character.
+- Verify if 200 Ok status code is returned
+- Verify if the response body contains bookingid and firstname should be the same with special characters as given in the request
+Expected Result : The response status code returned should be 200 OK and the response body should contain the bookingid and firstname should be the same with special characters as given in the request
+
+#### Testcase Id : Test-CreateBooking-10
+Testcase Description : Verify if CreateBooking API returns success status when the lastname in the request body contains special characters. 
+Precondition : API is reachable
+Test Steps :
+- Hit the request POST https://restful-booker.herokuapp.com/booking with a valid json request body and the lastname contains a special character.
+- Verify if 200 Ok status code is returned
+- Verify if the response body contains bookingid and lastname should be the same with special characters as given in the request
+Expected Result : The response status code returned should be 200 OK and the response body should contain bookingid and lastname should be the same with special characters as given in the request
 
 ### GetBookingId API
 

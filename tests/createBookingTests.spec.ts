@@ -189,4 +189,51 @@ test.describe('CreateBooking API functionality',async()=>{
         expect(responseJson.booking.additionalneeds).not.toBeDefined();
     })
 
+    test('should verify if the CreateToken API returns success when request body with same firstname and lastname is sent',async({request})=>{
+        const createBooking = new CreateBooking(request);
+        const payload = JSON.parse(JSON.stringify(createBookingPayload));
+        const firstResponse = await createBooking.createBookingAPI(payload);
+        const firstResponseJson = await firstResponse.json();
+        expect(firstResponse.status()).toBe(200);
+        expect(firstResponseJson).toHaveProperty('bookingid');
+        const firstBookingId = firstResponseJson.bookingid;
+        expect(firstBookingId).toBeTruthy();
+        const secondResponse = await createBooking.createBookingAPI(payload);
+        const secondResponseJson = await secondResponse.json();
+        const secondBookingId = secondResponseJson.bookingid;
+        expect(secondResponse.status()).toBe(200);
+        expect(secondResponseJson).toHaveProperty('bookingid');
+        expect(secondBookingId).toBeTruthy();
+        expect(firstBookingId).not.toBe(secondBookingId);
+    })
+
+    test('should verify if CreateToken API returns success when the firstname contains special characters',async({request})=>{
+        const createBooking = new CreateBooking(request);
+        const payload = JSON.parse(JSON.stringify(createBookingPayload));
+        payload.firstname = payload.firstname + '%';
+        const response = await createBooking.createBookingAPI(payload);
+        expect(response.status()).toBe(200);
+        const responseJson = await response.json();
+        expect(responseJson).toHaveProperty('bookingid');
+        expect(responseJson.bookingid).toBeTruthy();
+        expect(responseJson).toHaveProperty('booking.firstname');
+        const firstname = responseJson.booking.firstname;
+        expect(firstname).toBeTruthy();
+        expect(firstname).toBe(payload.firstname);
+    })
+     test('should verify if CreateToken API returns success when the lastname contains special characters',async({request})=>{
+        const createBooking = new CreateBooking(request);
+        const payload = JSON.parse(JSON.stringify(createBookingPayload));
+        payload.lastname = payload.lastname + '%';
+        const response = await createBooking.createBookingAPI(payload);
+        expect(response.status()).toBe(200);
+        const responseJson = await response.json();
+        expect(responseJson).toHaveProperty('bookingid');
+        expect(responseJson.bookingid).toBeTruthy();
+        expect(responseJson).toHaveProperty('booking.lastname');
+        const lastname = responseJson.booking.lastname;
+        expect(lastname).toBeTruthy();
+        expect(lastname).toBe(payload.lastname);
+    })
+
 })
