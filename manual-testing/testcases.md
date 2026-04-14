@@ -209,6 +209,24 @@ Test Steps :
 - Verify if the response body contains bookingid and lastname should be the same with special characters as given in the request
 Expected Result : The response status code returned should be 200 OK and the response body should contain bookingid and lastname should be the same with special characters as given in the request
 
+#### Testcase Id : Test-CreateBooking-11
+Testcase Description : Verify if CreateBooking API returns error when invalid endpoint URI is used instead of /booking 
+Precondition : API is reachable
+Test Steps :
+- Hit the request POST https://restful-booker.herokuapp.com/bookings and with a valid json request body
+- Verify if 404 status code is returned
+- Verify the response body contains Not Found text
+Expected Result : The response should return a 404 http status code and Not Found text
+
+#### Testcase Id : Test-CreateBooking-11
+Testcase Description : Verify the CreateBooking API response when checkin date is after checkout date 
+Precondition : API is reachable
+Test Steps :
+- Hit the request POST https://restful-booker.herokuapp.com/bookings and with a valid json request body but the checkin date greater than checkout date
+- Verify if 200 Ok status code is returned
+- Verify if the checkin and checkout date in response
+Expected Result : The response status code returned should be 200 OK and the response body should contain the same checkin and checkout date provided in the request
+
 ### GetBookingId API
 
 #### Testcase Id : Test-GetBookingId-01

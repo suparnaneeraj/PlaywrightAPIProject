@@ -1,6 +1,7 @@
 import {test, expect, Page} from '@playwright/test';
 import { CreateBooking } from '../apis/createBooking';
 import createBookingPayload from '../payloads/createBookingPayload.json';
+import { DateUtil } from '../utils/dateUtils';
 
 test.describe('CreateBooking API functionality',async()=>{
 
@@ -234,6 +235,31 @@ test.describe('CreateBooking API functionality',async()=>{
         const lastname = responseJson.booking.lastname;
         expect(lastname).toBeTruthy();
         expect(lastname).toBe(payload.lastname);
+    })
+    test('should verify if CreateBooking API returns error on invalid endpoint uri',async({request})=>{
+        const createBooking = new CreateBooking(request);
+        const payload = JSON.parse(JSON.stringify(createBookingPayload));
+        const response = await createBooking.createBookingAPI(payload, '/bookings');
+        expect(response.status()).toBe(404);
+        const responseBodyText = await response.text();
+        expect(responseBodyText).toBe('Not Found');
+    })
+    test('should verify CreateBooking when checkin date is greater than checkout date',async({request})=>{
+        const createBooking = new CreateBooking(request);
+        const checkinDate = DateUtil.getDateAfterDays(5);
+        const checkoutDate = DateUtil.getDateAfterDays(2);
+        const payload = JSON.parse(JSON.stringify(createBookingPayload));
+        payload.bookingdates.checkin = checkinDate;
+        payload.bookingdates.checkout = checkoutDate;
+        const response = await createBooking.createBookingAPI(payload);
+        expect(response.status()).toBe(200);
+        const responseBodyJson = await response.json();
+        expect(responseBodyJson).toHaveProperty('booking');
+        expect(responseBodyJson.booking).toHaveProperty('bookingdates');
+        expect(responseBodyJson.booking.bookingdates).toHaveProperty('checkin');
+        expect(responseBodyJson.booking.bookingdates).toHaveProperty('checkout');
+        expect(responseBodyJson.booking.bookingdates.checkin).toBe(checkinDate);
+        expect(responseBodyJson.booking.bookingdates.checkout).toBe(checkoutDate);
     })
 
 })
