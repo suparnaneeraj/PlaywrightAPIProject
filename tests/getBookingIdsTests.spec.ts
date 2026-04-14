@@ -1,12 +1,11 @@
-import {test, expect, Page} from '@playwright/test';
+import {test, expect} from './fixtures';
 import { GetBookingId } from '../apis/getBookingId';
 
 test.describe('should verify the getBookingIds API',async()=>{
 
-    test('should verify if GetBookingIds API returns success status and valid empty response body for valid and no request params',async({request})=>{
+    test('should verify if GetBookingIds API returns success status and valid empty response body for valid and no request params',async({getBookingId})=>{
 
-        const getBookingIdsAPI = new GetBookingId(request);
-        const getBookingIdsResponse = await getBookingIdsAPI.getBookingIds();
+        const getBookingIdsResponse = await getBookingId.getBookingIds();
         const getBookingIdsResponseJson = await getBookingIdsResponse.json();
         expect(getBookingIdsResponse.status()).toBe(200);
         //verifying if the body is an array of bookingids

@@ -1,18 +1,16 @@
-import {test, expect, Page} from '@playwright/test';
+import {test, expect} from './fixtures';
 import { CreateBooking } from '../apis/createBooking';
 import createBookingPayload from '../payloads/createBookingPayload.json';
 import { DateUtil } from '../utils/dateUtils';
 
 test.describe('CreateBooking API functionality',async()=>{
 
-    test('should verify if CreateBooking API returns success status and a non empty json response body with required parameters for a valid json request body', async({request})=>{
+    test('should verify if CreateBooking API returns success status and a non empty json response body with required parameters for a valid json request body', async({createBooking})=>{
         const payload = {
             ...createBookingPayload,
             firstname:  `Test${Date.now()}`,
             lastname: `User${Date.now()}`
         }
-
-        const createBooking = new CreateBooking(request);
         const response = await createBooking.createBookingAPI(payload);  
         expect(response.status()).toBe(200);
         const responseJson = await response.json();
@@ -59,11 +57,9 @@ test.describe('CreateBooking API functionality',async()=>{
 
     })
 
-    test('should verify if CreateBookingAPI returns error when firstname is missing in the json request body',async({request})=>{
+    test('should verify if CreateBookingAPI returns error when firstname is missing in the json request body',async({createBooking})=>{
         const payload = JSON.parse(JSON.stringify(createBookingPayload));
         delete payload.firstname;
-        console.log(payload);
-        const createBooking = new CreateBooking(request);
         const response = await createBooking.createBookingAPI(payload);
         expect(response.status()).toBe(500);
         const responsebodyText = await response.text();
@@ -71,11 +67,9 @@ test.describe('CreateBooking API functionality',async()=>{
 
     })
 
-    test('should verify if CreateBookingAPI returns error when lastname is missing in the json request body',async({request})=>{
+    test('should verify if CreateBookingAPI returns error when lastname is missing in the json request body',async({createBooking})=>{
         const payload = JSON.parse(JSON.stringify(createBookingPayload));
         delete payload.lastname;
-        console.log(payload);
-        const createBooking = new CreateBooking(request);
         const response = await createBooking.createBookingAPI(payload);
         expect(response.status()).toBe(500);
         const responsebodyText = await response.text();
@@ -83,11 +77,9 @@ test.describe('CreateBooking API functionality',async()=>{
 
     })
 
-    test('should verify if CreateBookingAPI returns error when totalprice is missing in the json request body',async({request})=>{
+    test('should verify if CreateBookingAPI returns error when totalprice is missing in the json request body',async({createBooking})=>{
         const payload = JSON.parse(JSON.stringify(createBookingPayload));
         delete payload.totalprice;
-        console.log(payload);
-        const createBooking = new CreateBooking(request);
         const response = await createBooking.createBookingAPI(payload);
         expect(response.status()).toBe(500);
         const responsebodyText = await response.text();
@@ -95,22 +87,18 @@ test.describe('CreateBooking API functionality',async()=>{
 
     })
 
-    test('should verify if CreateBookingAPI returns error when depositpaid is missing in the json request body',async({request})=>{
+    test('should verify if CreateBookingAPI returns error when depositpaid is missing in the json request body',async({createBooking})=>{
         const payload = JSON.parse(JSON.stringify(createBookingPayload));
         delete payload.depositpaid;
-        console.log(payload);
-        const createBooking = new CreateBooking(request);
         const response = await createBooking.createBookingAPI(payload);
         expect(response.status()).toBe(500);
         const responsebodyText = await response.text();
         expect(responsebodyText).toBe('Internal Server Error');
 
     })
-    test('should verify if CreateBookingAPI returns error when bookingdates is missing in the json request body',async({request})=>{
+    test('should verify if CreateBookingAPI returns error when bookingdates is missing in the json request body',async({createBooking})=>{
         const payload = JSON.parse(JSON.stringify(createBookingPayload));
         delete payload.bookingdates;
-        console.log(payload);
-        const createBooking = new CreateBooking(request);
         const response = await createBooking.createBookingAPI(payload);
         expect(response.status()).toBe(500);
         const responsebodyText = await response.text();
@@ -118,22 +106,18 @@ test.describe('CreateBooking API functionality',async()=>{
 
     })
 
-    test('should verify if CreateBookingAPI returns error when checkin inside bookingdates object is missing in the json request body',async({request})=>{
+    test('should verify if CreateBookingAPI returns error when checkin inside bookingdates object is missing in the json request body',async({createBooking})=>{
        const payload = JSON.parse(JSON.stringify(createBookingPayload));
         delete payload.bookingdates.checkin;
-        console.log(payload);
-        const createBooking = new CreateBooking(request);
         const response = await createBooking.createBookingAPI(payload);
         expect(response.status()).toBe(500);
         const responsebodyText = await response.text();
         expect(responsebodyText).toBe('Internal Server Error');
 
     })
-    test('should verify if CreateBookingAPI returns error when checkout inside bookingdates object is missing in the json request body',async({request})=>{
+    test('should verify if CreateBookingAPI returns error when checkout inside bookingdates object is missing in the json request body',async({createBooking})=>{
        const payload = JSON.parse(JSON.stringify(createBookingPayload));
         delete payload.bookingdates.checkout;
-        console.log(payload);
-        const createBooking = new CreateBooking(request);
         const response = await createBooking.createBookingAPI(payload);
         expect(response.status()).toBe(500);
         const responsebodyText = await response.text();
@@ -141,13 +125,11 @@ test.describe('CreateBooking API functionality',async()=>{
 
     })
 
-     test('should verify if CreateBookingAPI returns success when additionalneeds is missing in the json request body',async({request})=>{
+     test('should verify if CreateBookingAPI returns success when additionalneeds is missing in the json request body',async({createBooking})=>{
        const payload = JSON.parse(JSON.stringify(createBookingPayload));
         delete payload.additionalneeds;
         payload.firstname = `Test${Date.now()}`;
         payload.lastname= `User${Date.now()}`;
-        console.log(payload);
-        const createBooking = new CreateBooking(request);
         const response = await createBooking.createBookingAPI(payload);
         expect(response.status()).toBe(200);
         const responseJson = await response.json();
@@ -190,8 +172,7 @@ test.describe('CreateBooking API functionality',async()=>{
         expect(responseJson.booking.additionalneeds).not.toBeDefined();
     })
 
-    test('should verify if the CreateToken API returns success when request body with same firstname and lastname is sent',async({request})=>{
-        const createBooking = new CreateBooking(request);
+    test('should verify if the CreateToken API returns success when request body with same firstname and lastname is sent',async({createBooking})=>{
         const payload = JSON.parse(JSON.stringify(createBookingPayload));
         const firstResponse = await createBooking.createBookingAPI(payload);
         const firstResponseJson = await firstResponse.json();
@@ -208,8 +189,7 @@ test.describe('CreateBooking API functionality',async()=>{
         expect(firstBookingId).not.toBe(secondBookingId);
     })
 
-    test('should verify if CreateToken API returns success when the firstname contains special characters',async({request})=>{
-        const createBooking = new CreateBooking(request);
+    test('should verify if CreateToken API returns success when the firstname contains special characters',async({createBooking})=>{
         const payload = JSON.parse(JSON.stringify(createBookingPayload));
         payload.firstname = payload.firstname + '%';
         const response = await createBooking.createBookingAPI(payload);
@@ -222,8 +202,7 @@ test.describe('CreateBooking API functionality',async()=>{
         expect(firstname).toBeTruthy();
         expect(firstname).toBe(payload.firstname);
     })
-     test('should verify if CreateToken API returns success when the lastname contains special characters',async({request})=>{
-        const createBooking = new CreateBooking(request);
+     test('should verify if CreateToken API returns success when the lastname contains special characters',async({createBooking})=>{
         const payload = JSON.parse(JSON.stringify(createBookingPayload));
         payload.lastname = payload.lastname + '%';
         const response = await createBooking.createBookingAPI(payload);
@@ -236,16 +215,14 @@ test.describe('CreateBooking API functionality',async()=>{
         expect(lastname).toBeTruthy();
         expect(lastname).toBe(payload.lastname);
     })
-    test('should verify if CreateBooking API returns error on invalid endpoint uri',async({request})=>{
-        const createBooking = new CreateBooking(request);
+    test('should verify if CreateBooking API returns error on invalid endpoint uri',async({createBooking})=>{
         const payload = JSON.parse(JSON.stringify(createBookingPayload));
         const response = await createBooking.createBookingAPI(payload, '/bookings');
         expect(response.status()).toBe(404);
         const responseBodyText = await response.text();
         expect(responseBodyText).toBe('Not Found');
     })
-    test('should verify CreateBooking when checkin date is greater than checkout date',async({request})=>{
-        const createBooking = new CreateBooking(request);
+    test('should verify CreateBooking when checkin date is greater than checkout date',async({createBooking})=>{
         const checkinDate = DateUtil.getDateAfterDays(5);
         const checkoutDate = DateUtil.getDateAfterDays(2);
         const payload = JSON.parse(JSON.stringify(createBookingPayload));
