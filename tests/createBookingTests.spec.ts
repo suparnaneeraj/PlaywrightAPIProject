@@ -238,5 +238,13 @@ test.describe('CreateBooking API functionality',async()=>{
         expect(responseBodyJson.booking.bookingdates.checkin).toBe(checkinDate);
         expect(responseBodyJson.booking.bookingdates.checkout).toBe(checkoutDate);
     })
+    test('should verify the CreateBooking API when depositpaid is false', async({createBooking})=>{
+        const payload = JSON.parse(JSON.stringify(createBookingPayload));
+        payload.depositpaid = false;
+        const response = await createBooking.createBookingAPI(payload);
+        expect(response.status()).toBe(200);
+        const responseBodyJson = await response.json();
+        expect(responseBodyJson.booking.depositpaid).toBe(false);
+    })
 
 })

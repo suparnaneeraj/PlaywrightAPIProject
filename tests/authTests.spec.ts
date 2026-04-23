@@ -92,7 +92,7 @@ test.describe('Create Token Tests', async()=>{
         expect(createTokenResponseJson.token.trim().length).toBeGreaterThan(0);
 
     })
-    test('shoudl verify if CreateToken API returns error when conten-type is missing in Request headers',async({createToken})=>{
+    test('should verify if CreateToken API returns error when conten-type is missing in Request headers',async({createToken})=>{
         const createTokenRequestPayload = {
             "username" : username,
             "password" : password
