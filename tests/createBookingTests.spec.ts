@@ -6,11 +6,9 @@ import { DateUtil } from '../utils/dateUtils';
 test.describe('CreateBooking API functionality',async()=>{
 
     test('should verify if CreateBooking API returns success status and a non empty json response body with required parameters for a valid json request body', async({createBooking})=>{
-        const payload = {
-            ...createBookingPayload,
-            firstname:  `Test${Date.now()}`,
-            lastname: `User${Date.now()}`
-        }
+        const payload = JSON.parse(JSON.stringify(createBookingPayload));
+        payload.firstname = `Test${Date.now()}`;
+        payload.lastname = `User${Date.now()}`
         const response = await createBooking.createBookingAPI(payload);  
         expect(response.status()).toBe(200);
         const responseJson = await response.json();
