@@ -231,7 +231,7 @@ Expected Result : The response status code returned should be 200 OK and the res
 
 #### Testcase Id : Test-GetBookingId-01
 Testcase Description : Verify if GetBookingIds API returns success status and non empty response body without any query parameters
-Precondition : API is reachable
+Precondition : API is reachable and atleast one booking is already created
 Test Steps :
 - Hit the request GET https://restful-booker.herokuapp.com/booking without any query parameters or request body
 - Verify if 200 Ok status code is returned
@@ -241,10 +241,20 @@ Expected Result : The response status code returned should be 200 OK and the res
 
 #### Testcase Id : Test-GetBookingId-02
 Testcase Description : Verify if GetBookingIds API returns success status and non empty response body with firstname and lastname query params
-Precondition : API is reachable
+Precondition : API is reachable and atleast one booking is already created
 Test Steps :
 - Hit the request GET https://restful-booker.herokuapp.com/booking with valid firstname and lastname as query parameters
 - Verify if 200 Ok status code is returned
 - Verify if the response body is non empty and contains array of objects bookingid
 - Verify if the value of bookingid is a number
 Expected Result : The response status code returned should be 200 OK and the response body should be an array of objects with parameter bookingid. The bookindid should be a number.
+
+#### Testcase Id : Test-GetBookingId-03
+Testcase Description: Verify if GetBookingIds API returns success status and an empty response body when incorrect firstname is passed
+Precondition : API is reachable and atleast one booking is already created
+Test Steps :
+- Hit the request GET https://restful-booker.herokuapp.com/booking with incorrect firstname
+- Verify if 200 Ok status code is returned
+- Verify if the response body is an empty array
+Expected Result : The response status code returned should be 200 OK and the response body should be an empty array.
+
